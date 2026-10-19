@@ -6,6 +6,10 @@
 
 Robot code for the **WMS BearBots**, *FIRST* Tech Challenge Team 14158 at Wilson Middle School, for the 2026–27 BIOBUZZ season. Part of [Wyandotte Robotics](https://github.com/Wyandotte-Robotics).
 
+## Our robot
+
+The **[goBILDA StarterBot with mecanum wheels](https://www.gobilda.com/ftc-starterbot-base-with-mecanum-wheels-resource-guide-2026-2027/)** (2026–27): a Strafer mecanum chassis, a GripForce Gecko wheel intake, and a launcher for POLLEN. We added a **goBILDA Pinpoint** with two **4-bar odometry pods** so the robot always knows where it is on the field.
+
 ## What's inside
 
 | | Version | What it's for |
@@ -20,22 +24,55 @@ Robot code for the **WMS BearBots**, *FIRST* Tech Challenge Team 14158 at Wilson
 1. **Install [Android Studio](https://developer.android.com/studio)** (Narwhal 3 Feature Drop or newer).
 2. **Get the code.** In Android Studio, choose **File → New → Project from Version Control** and paste `https://github.com/Wyandotte-Robotics/ftc-14158-biobuzz.git`. Or clone it with GitHub Desktop and open the folder.
 3. **Wait for Gradle sync.** The first time downloads a lot and can take several minutes.
-4. **Connect to the robot.** Join the Control Hub's Wi-Fi (or plug in USB), choose **TeamCode** at the top, and press **Run ▶**.
-5. **Drive.** On the Driver Hub, pick **Main TeleOp** and press Play.
+4. **Set up the robot configuration** on the Driver Hub with the names below.
+5. **Connect to the robot.** Join the Control Hub's Wi-Fi (or plug in USB), choose **TeamCode** at the top, and press **Run ▶**.
+6. **Drive.** On the Driver Hub, pick **Main TeleOp** and press Play.
 
-`Main TeleOp` expects drive motors named `frontLeft`, `frontRight`, `backLeft` and `backRight`. Either use those names in your robot configuration, or change them at the top of [`MainTeleOp.java`](../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodes/MainTeleOp.java).
+## Robot configuration
+
+Use these names on the Driver Hub. They match goBILDA's example code and [`robot/StarterBot.java`](../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/robot/StarterBot.java).
+
+| Name | Device | What it is |
+| --- | --- | --- |
+| `left_front_drive` | Motor: goBILDA 5202/3/4 series | Front left wheel |
+| `right_front_drive` | Motor: goBILDA 5202/3/4 series | Front right wheel |
+| `left_back_drive` | Motor: goBILDA 5202/3/4 series | Back left wheel |
+| `right_back_drive` | Motor: goBILDA 5202/3/4 series | Back right wheel |
+| `intake` | Motor: goBILDA 5202/3/4 series | Intake roller |
+| `launcher` | Motor: goBILDA 5202/3/4 series | Launcher wheel. Plug in its encoder cable too, because the launcher holds its speed with it |
+| `left_intake_servo` | Continuous Rotation Servo | Left corner intake servo |
+| `right_intake_servo` | Continuous Rotation Servo | Right corner intake servo |
+| `windmillServo` | Continuous Rotation Servo | Feeds POLLEN into the launcher |
+| `pinpoint` | goBILDA Pinpoint Odometry Computer (on an I2C bus) | Position tracking |
+
+Pinpoint wiring, from Pedro's guide: plug it into an I2C bus **other than bus 0** (the Control Hub's own IMU uses bus 0), mount it **sticker side up**, plug the **forward** pod into **X** and the **sideways** pod into **Y**.
+
+## Driving
+
+| Control (gamepad 1) | Does |
+| --- | --- |
+| Left stick | Drive forward/back and strafe left/right |
+| Right stick | Turn |
+| Right trigger | Intake in (pull harder to go faster) |
+| Left trigger | Intake out |
+| Right bumper | Hold to spin up the launcher; it feeds automatically once it's up to speed |
+| Left bumper | Hold for slow mode |
+
+To tune the launcher, open Panels while **Main TeleOp** runs. **Configurables → StarterBot** has the target speed and PIDF values, and the launcher's speed shows in telemetry. Copy values that work back into `StarterBot.java`, because Panels changes are lost when the robot restarts.
 
 ## Where things go
 
 ```
 TeamCode/src/main/java/org/firstinspires/ftc/teamcode/
-├── opmodes/   Your TeleOps and autonomous routines (MainTeleOp is the starter drive code)
+├── robot/     StarterBot.java: hardware names, launcher settings, drive/intake/launch actions
+├── opmodes/   Your TeleOps and autonomous routines (Main TeleOp is here)
 ├── pedro/     Pedro Pathing setup: Constants.java, Tuning.java and the tuners
 ├── tools/     Field Viewer: drive and watch the robot on the Panels field
-└── util/      FieldDrawing: draws the robot and its paths on Panels
+├── util/      FieldDrawing: draws the robot and its paths on Panels
+└── gobilda/   goBILDA's original StarterBot TeleOp, kept as a known-good reference
 ```
 
-Leave `FtcRobotController/` alone. That's *FIRST*'s code, and SDK updates replace it.
+Leave `FtcRobotController/` alone. That's *FIRST*'s code, and SDK updates replace it. If something acts strange, run goBILDA's **Mec BioBuzz StarterBot Teleop** to check whether the problem is the robot or our code.
 
 ## Dashboards on the robot
 
@@ -49,14 +86,12 @@ Connect your laptop to the robot's Wi-Fi, then open:
 
 ## Setting up Pedro Pathing
 
-Pedro needs to learn about your drivetrain and localizer (odometry pods, Pinpoint, OTOS…) before it can follow paths. Until then, `Constants.create()` returns `null` and the Field Viewer will say so. Do this once the drivetrain and localizer are on the robot:
+[`pedro/Constants.java`](../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/pedro/Constants.java) already has the StarterBot's drive motors and a Pinpoint with 4-bar pods. Three things are left, all in **AutoTune** (http://192.168.43.1:10158):
 
-1. **Install the code** on the robot and open **AutoTune** (http://192.168.43.1:10158).
-2. **Run the Mecanum Tuner.** Paste the code it gives you into [`pedro/Constants.java`](../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/pedro/Constants.java).
-3. **Run the tuner for your localizer** (Pinpoint, OTOS, two wheel, three wheel or OctoQuad). Paste that code into `Constants.java` too.
-4. **Turn on the Foresight Tuner** in [`pedro/Tuning.java`](../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/pedro/Tuning.java) (it's commented out), reinstall, run it, and paste its code.
-5. **Make `create()` return a real `Follower`.** There's an example in the comment.
-6. **Check it with the Field Viewer.** Open Panels, run **Field Viewer** from the TeleOp list, and drive. The gold circle on the field should move just like the robot does.
+1. **Mecanum Tuner** (optional): double-checks the motor directions. Only paste its result if it disagrees with what's there.
+2. **Pinpoint Tuner**: enter `pinpoint`, choose the **4-bar** pod, then push the robot forward, push it left, and spin it 180°. Paste the `PinpointConfig` it generates over the one in `Constants.java`.
+   **Now the Field Viewer works:** open Panels, run **Field Viewer**, and drive. The gold circle on the field should move just like the robot.
+3. **Foresight Tuner**: the robot drives itself to learn how it speeds up and brakes, so give it room. Paste the result into `Constants.java` as `foresightConfig`, make `create()` return a real `Follower` (the comment shows how), and turn on the **Tests** in [`pedro/Tuning.java`](../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/pedro/Tuning.java) to check path following.
 
 The full guide is at [pedropathing.com/docs/pathing/tuning](https://pedropathing.com/docs/pathing/tuning).
 
@@ -83,4 +118,4 @@ Read the [contributing guide](https://github.com/Wyandotte-Robotics/.github/blob
 
 ## Credits
 
-Built on the [FTC SDK](https://github.com/FIRST-Tech-Challenge/FtcRobotController) by *FIRST* ([license](../LICENSE)), [Pedro Pathing](https://github.com/Pedro-Pathing), and [Panels](https://panels.bylazar.com) by Lazar.
+Built on the [FTC SDK](https://github.com/FIRST-Tech-Challenge/FtcRobotController) by *FIRST* ([license](../LICENSE)), [Pedro Pathing](https://github.com/Pedro-Pathing), [Panels](https://panels.bylazar.com) by Lazar, and goBILDA's [StarterBot example code](../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/gobilda) (MIT).

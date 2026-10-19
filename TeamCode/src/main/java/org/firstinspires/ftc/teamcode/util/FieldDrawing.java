@@ -15,11 +15,11 @@ import java.util.Deque;
  *
  * Open Panels at http://192.168.43.1:8001 while your laptop is connected to the robot's Wi-Fi.
  *
- * Use it from any OpMode that has a Pedro Pathing Follower:
+ * Use it from any OpMode that has a Pedro Pathing Follower (draws its path too) or a Localizer:
  * <pre>
  *     init():  FieldDrawing.init();
- *     loop():  follower.update();
- *              FieldDrawing.draw(follower);
+ *     loop():  follower.update();               localizer.update();
+ *              FieldDrawing.draw(follower);     FieldDrawing.draw(localizer.pose());
  * </pre>
  */
 public final class FieldDrawing {
@@ -51,8 +51,11 @@ public final class FieldDrawing {
         if (path != null) {
             drawPath(path);
         }
+        draw(follower.pose());
+    }
 
-        Pose pose = follower.pose();
+    /** Draws the trail and the robot at a pose (from a Localizer, for example), then sends them to Panels. */
+    public static void draw(Pose pose) {
         if (isValid(pose)) {
             trail.addLast(pose);
             while (trail.size() > TRAIL_LENGTH) {
