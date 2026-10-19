@@ -1,8 +1,8 @@
 <img src="assets/ftc-14158-banner.png" alt="WMS BearBots, FIRST Tech Challenge Team 14158">
 
-# FTC 14158 robot code · 2026–27
+# FTC 14158 robot code · BIOBUZZ 2026–27
 
-[![Build](https://github.com/Wyandotte-Robotics/ftc-14158-2026-27/actions/workflows/build.yml/badge.svg)](https://github.com/Wyandotte-Robotics/ftc-14158-2026-27/actions/workflows/build.yml)
+[![Build](https://github.com/Wyandotte-Robotics/ftc-14158-biobuzz/actions/workflows/build.yml/badge.svg)](https://github.com/Wyandotte-Robotics/ftc-14158-biobuzz/actions/workflows/build.yml)
 
 Robot code for the **WMS BearBots**, *FIRST* Tech Challenge Team 14158 at Wilson Middle School, for the 2026–27 BIOBUZZ season. Part of [Wyandotte Robotics](https://github.com/Wyandotte-Robotics).
 
@@ -18,7 +18,7 @@ Robot code for the **WMS BearBots**, *FIRST* Tech Challenge Team 14158 at Wilson
 ## Your first day
 
 1. **Install [Android Studio](https://developer.android.com/studio)** (Narwhal 3 Feature Drop or newer).
-2. **Get the code.** In Android Studio, choose **File → New → Project from Version Control** and paste `https://github.com/Wyandotte-Robotics/ftc-14158-2026-27.git`. Or clone it with GitHub Desktop and open the folder.
+2. **Get the code.** In Android Studio, choose **File → New → Project from Version Control** and paste `https://github.com/Wyandotte-Robotics/ftc-14158-biobuzz.git`. Or clone it with GitHub Desktop and open the folder.
 3. **Wait for Gradle sync.** The first time downloads a lot and can take several minutes.
 4. **Connect to the robot.** Join the Control Hub's Wi-Fi (or plug in USB), choose **TeamCode** at the top, and press **Run ▶**.
 5. **Drive.** On the Driver Hub, pick **Main TeleOp** and press Play.
