@@ -60,12 +60,19 @@ Pinpoint wiring, from Pedro's guide: plug it into an I2C bus **other than bus 0*
 
 To tune the launcher, open Panels while **Main TeleOp** runs. **Configurables → StarterBot** has the target speed and PIDF values, and the launcher's speed shows in telemetry. Copy values that work back into `StarterBot.java`, because Panels changes are lost when the robot restarts.
 
+## Autonomous
+
+**Starter Auto** ([`opmodes/auto/StarterAuto.java`](../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodes/auto/StarterAuto.java)) is our first autonomous routine, written to be easy to learn from. It waits an optional delay, launches the 4 preloaded POLLEN, then drives for a set time and stops. Afterwards the Driver Hub selects **Main TeleOp** automatically.
+
+Set the robot in a legal starting spot aimed at our HIVE, at a distance where the launcher scores, then choose **Starter Auto** from the Autonomous list. It runs on timers, so it works before Pedro is tuned. Test with a charged battery. Its settings (delay, launch time, drive power and time) show up in Panels under **Configurables → StarterAuto**. The bottom of the file has a list of things to try, from easy changes to rewriting it with Pedro Pathing.
+
 ## Where things go
 
 ```
 TeamCode/src/main/java/org/firstinspires/ftc/teamcode/
 ├── robot/     StarterBot.java: hardware names, launcher settings, drive/intake/launch actions
-├── opmodes/   Your TeleOps and autonomous routines (Main TeleOp is here)
+├── opmodes/   Your TeleOps (Main TeleOp is here)
+│   └── auto/  Autonomous routines (Starter Auto is here)
 ├── pedro/     Pedro Pathing setup: Constants.java, Tuning.java and the tuners
 ├── tools/     Field Viewer: drive and watch the robot on the Panels field
 ├── util/      FieldDrawing: draws the robot and its paths on Panels
