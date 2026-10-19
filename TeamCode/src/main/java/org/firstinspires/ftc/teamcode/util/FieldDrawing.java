@@ -68,6 +68,28 @@ public final class FieldDrawing {
         field.update();
     }
 
+    /**
+     * Draws a whole plan: each path, plus the robot at its start pose. Call it in init_loop()
+     * to check an autonomous on the Panels field before running it.
+     */
+    public static void drawPlan(Pose start, Path... paths) {
+        for (Path path : paths) {
+            drawPath(path);
+        }
+        drawRobot(start);
+        field.update();
+    }
+
+    /** Draws a small circle at something we're aiming at, like a HIVE CELL. Call before draw() or drawPlan(). */
+    public static void drawTarget(Pose target) {
+        if (!isValid(target)) {
+            return;
+        }
+        field.setStyle(ROBOT_STYLE);
+        field.moveCursor(target.x(), target.y());
+        field.circle(3);
+    }
+
     /** Draws the robot as a circle with a line showing which way it's facing. */
     public static void drawRobot(Pose pose) {
         if (!isValid(pose)) {

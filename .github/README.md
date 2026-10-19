@@ -62,9 +62,26 @@ To tune the launcher, open Panels while **Main TeleOp** runs. **Configurables �
 
 ## Autonomous
 
-**Starter Auto** ([`opmodes/auto/StarterAuto.java`](../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodes/auto/StarterAuto.java)) is our first autonomous routine, written to be easy to learn from. It waits an optional delay, launches the 4 preloaded POLLEN, then drives for a set time and stops. Afterwards the Driver Hub selects **Main TeleOp** automatically.
+There are two autonomous routines, both under **BearBots** in the Autonomous list. After either one, the Driver Hub selects **Main TeleOp** automatically.
 
-Set the robot in a legal starting spot aimed at our HIVE, at a distance where the launcher scores, then choose **Starter Auto** from the Autonomous list. It runs on timers, so it works before Pedro is tuned. Test with a charged battery. Its settings (delay, launch time, drive power and time) show up in Panels under **Configurables → StarterAuto**. The bottom of the file has a list of things to try, from easy changes to rewriting it with Pedro Pathing.
+**Starter Auto** ([`opmodes/auto/StarterAuto.java`](../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodes/auto/StarterAuto.java)) is the one to learn from first. It waits an optional delay, launches the 4 preloaded POLLEN, then drives for a set time and stops. It runs on timers, so it works before Pedro is tuned. Set the robot in a legal starting spot aimed at our HIVE, where the launcher scores. Its settings show up in Panels under **Configurables → StarterAuto**, and the bottom of the file has a list of things to try.
+
+**Pedro Auto: Red** and **Pedro Auto: Blue** ([`opmodes/auto/PedroAuto.java`](../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodes/auto/PedroAuto.java)) drive to exact spots with Pedro Pathing:
+
+1. Drive off the wall to the launch spot (LEAVE), spinning up the launcher on the way
+2. Launch the 4 preloaded POLLEN at our HIVE's tipped-up CELL
+3. Sweep up our GARDEN's 4 POLLEN from the line in our corner
+4. Drive back and launch them
+5. Park in our LOADING ZONE (PARK). If time runs short, it goes straight to park.
+
+<img src="assets/auto-plan.png" width="560" alt="Map of the Pedro Auto plan for red and blue">
+
+**The positions are best guesses** from the BIOBUZZ manual and community field models, and haven't been measured on a real field. They're all in [`opmodes/auto/AutoPoses.java`](../TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodes/auto/AutoPoses.java), written for red; blue is the same plan turned 180° around the field center. To check them:
+
+- Press **INIT** on Pedro Auto with Panels open. It draws the whole plan on the field, even before Pedro is tuned.
+- Put the robot at the red start spot (touching the red wall, 84 in from the audience wall), run the **Field Viewer**, drive to each real spot, read its position, and update `AutoPoses.java`.
+
+Pedro Auto only drives once Pedro is tuned (see below). Until then it says so and does nothing.
 
 ## Where things go
 
@@ -72,7 +89,7 @@ Set the robot in a legal starting spot aimed at our HIVE, at a distance where th
 TeamCode/src/main/java/org/firstinspires/ftc/teamcode/
 ├── robot/     StarterBot.java: hardware names, launcher settings, drive/intake/launch actions
 ├── opmodes/   Your TeleOps (Main TeleOp is here)
-│   └── auto/  Autonomous routines (Starter Auto is here)
+│   └── auto/  Autonomous: Starter Auto, Pedro Auto (Red/Blue) and its best-guess poses
 ├── pedro/     Pedro Pathing setup: Constants.java, Tuning.java and the tuners
 ├── tools/     Field Viewer: drive and watch the robot on the Panels field
 ├── util/      FieldDrawing: draws the robot and its paths on Panels

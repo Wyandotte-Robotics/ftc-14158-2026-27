@@ -7,6 +7,8 @@ import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.opmodes.auto.Alliance;
+import org.firstinspires.ftc.teamcode.opmodes.auto.AutoPoses;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 import org.firstinspires.ftc.teamcode.robot.StarterBot;
 import org.firstinspires.ftc.teamcode.util.FieldDrawing;
@@ -23,8 +25,12 @@ import org.firstinspires.ftc.teamcode.util.FieldDrawing;
  */
 @TeleOp(name = "Field Viewer", group = "Tools")
 public class FieldViewer extends OpMode {
-    /** Where the robot starts, in Pedro coordinates (inches from the bottom-left corner, heading in radians). */
-    public static Pose START_POSE = new Pose(72, 72, Math.toRadians(90));
+    /**
+     * Where the robot starts: the red autonomous start spot (touching the red wall, 84 in from the
+     * audience wall, facing the blue wall). Put the robot there, and the positions you read match
+     * the ones in AutoPoses.
+     */
+    public static Pose START_POSE = new AutoPoses(Alliance.RED).start;
 
     private StarterBot robot;
     private Localizer localizer;
