@@ -18,7 +18,7 @@ dependencies {
 
     // Pedro Pathing: https://pedropathing.com/docs
     implementation 'com.pedropathing:revhub:3.0.2'
-    implementation 'com.pedropathing:tuning:1.0.2'
+    implementation 'com.pedropathing:tuning:1.0.3-beta.1' // 1.0.2 has a scanner NPE bug (TunerScanner.java:59)
 
     // Panels dashboard (field view, telemetry, graphs, live config): https://panels.bylazar.com
     implementation 'com.bylazar:fullpanels:1.0.18'
